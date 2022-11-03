@@ -65,6 +65,9 @@ class QueryableResource extends JsonResource implements QueriableResourceInterfa
         $queryParams = [];
         if (!empty($this->query)) {
             $query = array_map(function ($attribute, $value) {
+                if(is_array($value)){
+                    return $attribute . ':"' . implode('" ' . $value[0] . ' ' . $attribute . ':"', array_slice($value, 1)) . '"';
+                }
                 return $attribute . ':"' . $value . '"';
             }, array_keys($this->query), $this->query);
 
