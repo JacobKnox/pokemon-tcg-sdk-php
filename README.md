@@ -31,6 +31,15 @@ This is the PokÃ©mon TCG SDK PHP implementation. It is a wrapper around the PokÃ
         'subtypes' => 'ex'
     ])->all();
     
+#### Filter Cards via more complicated query parameters
+
+    $cards = Pokemon::Card()->where(['types' => ['OR', 'fire', 'water'])->where(['supertype' => 'pokemon'])->all();
+    
+    $cards = Pokemon::Card()->where([
+        'types' => ['OR', 'fire', 'water'],
+        'subtypes' => 'ex'
+    ])->all();
+    
 #### Get all Cards
 
     $cards = Pokemon::Card()->all();
