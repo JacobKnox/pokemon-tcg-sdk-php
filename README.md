@@ -12,17 +12,17 @@ This is the Pok√©mon TCG SDK PHP implementation. It is a wrapper around the Pok√
     
 ## Usage
     
-### Set ApiKey and options
+### <p align="center">Set ApiKey and options</p>
 [See the Guzzle 7 documentation for available options.](https://docs.guzzlephp.org/en/stable/request-options.html)
     
     Pokemon::Options(['verify' => true]);
     Pokemon::ApiKey('<YOUR_API_KEY_HERE>');
 
-### Find a Card by id
+### <p align="center">Find a Card by id</p>
 
     $card = Pokemon::Card()->find('xy1-1');
     
-### Filter Cards via query parameters
+### <p align="center">Filter Cards via query parameters</p>
 
     $cards = Pokemon::Card()->where(['set.name' => 'generations'])->where(['supertype' => 'pokemon'])->all();
     
@@ -31,7 +31,7 @@ This is the Pok√©mon TCG SDK PHP implementation. It is a wrapper around the Pok√
         'subtypes' => 'ex'
     ])->all();
     
-### Filter Cards via more complicated query parameters
+### <p align="center">Filter Cards via more complicated query parameters</p>
 
     $cards = Pokemon::Card()->where(['types' => ['OR', 'fire', 'water'])->where(['supertype' => 'pokemon'])->all();
     
@@ -53,55 +53,55 @@ There are three methods to order cards. You may use whichever one suits you.
 #### Specify comma-separated list of attributes
     $cards = Pokemon::Card()->orderBy(['name,-number'])->all();
     
-### Get all Cards
+### <p align="center">Get all Cards</p>
 
     $cards = Pokemon::Card()->all();
     
-### Paginate Card queries
+### <p align="center">Paginate Card queries</p>
 
     $cards = Pokemon::Card()->where([
         'set.legalities.standard' => 'legal'
     ])->page(8)->pageSize(100)->all();
     
-### Get Card pagination information
+### <p align="center">Get Card pagination information</p>
 
     $pagination = Pokemon::Card()->where([
         'set.legalities.standard' => 'legal'
     ])->pagination();
     
-### Find a Set by set code
+### <p align="center">Find a Set by set code</p>
 
     $set = Pokemon::Set()->find('base1');
     
-### Filter Sets via query parameters
+### <p align="center">Filter Sets via query parameters</p>
 
     $set = Pokemon::Set()->where(['legalities.standard' => 'legal'])->all();
     
-### Paginate Set queries
+### <p align="center">Paginate Set queries</p>
 
     $set = Pokemon::Set()->page(2)->pageSize(10)->all();
     
-### Get Set pagination information
+### <p align="center">Get Set pagination information</p>
 
     $pagination = Pokemon::Set()->pagination();
     
-### Get all Sets
+### <p align="center">Get all Sets</p>
 
     $sets = Pokemon::Set()->all();
     
-### Get all Types
+### <p align="center">Get all Types</p>
 
     $types = Pokemon::Type()->all();
     
-### Get all Subtypes
+### <p align="center">Get all Subtypes</p>
 
     $subtypes = Pokemon::Subtype()->all();
     
-### Get all Supertypes
+### <p align="center">Get all Supertypes</p>
 
     $supertypes = Pokemon::Supertype()->all();
     
-### Get all Rarities
+### <p align="center">Get all Rarities</p>
 
     $supertypes = Pokemon::Rarity()->all();
     
