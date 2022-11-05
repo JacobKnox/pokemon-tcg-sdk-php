@@ -12,17 +12,17 @@ This is the PokÃ©mon TCG SDK PHP implementation. It is a wrapper around the PokÃ
     
 ## Usage
     
-#### Set ApiKey and options
+### Set ApiKey and options
 [See the Guzzle 7 documentation for available options.](https://docs.guzzlephp.org/en/stable/request-options.html)
     
     Pokemon::Options(['verify' => true]);
     Pokemon::ApiKey('<YOUR_API_KEY_HERE>');
 
-#### Find a Card by id
+### Find a Card by id
 
     $card = Pokemon::Card()->find('xy1-1');
     
-#### Filter Cards via query parameters
+### Filter Cards via query parameters
 
     $cards = Pokemon::Card()->where(['set.name' => 'generations'])->where(['supertype' => 'pokemon'])->all();
     
@@ -31,7 +31,7 @@ This is the PokÃ©mon TCG SDK PHP implementation. It is a wrapper around the PokÃ
         'subtypes' => 'ex'
     ])->all();
     
-#### Filter Cards via more complicated query parameters
+### Filter Cards via more complicated query parameters
 
     $cards = Pokemon::Card()->where(['types' => ['OR', 'fire', 'water'])->where(['supertype' => 'pokemon'])->all();
     
@@ -40,68 +40,68 @@ This is the PokÃ©mon TCG SDK PHP implementation. It is a wrapper around the PokÃ
         'subtypes' => 'ex'
     ])->all();
     
-#### Order Cards
+### Order Cards
 
-### There are three methods to order cards. You may use whichever one suits you.
+There are three methods to order cards. You may use whichever one suits you.
 
-## Specify attribute and whether to sort ascending (0) or descending (1)
+#### Specify attribute and whether to sort ascending (0) or descending (1)
     $cards = Pokemon::Card()->orderBy(['name' => 0, 'number' => 1])->all();
 
-## Specify attributes with order indicator ('-' indicates descending, lack thereof indicates ascending)
+#### Specify attributes with order indicator ('-' indicates descending, lack thereof indicates ascending)
     $cards = Pokemon::Card()->orderBy(['name', '-number'])->all();
     
-## Specify comma-separated list of attributes
+#### Specify comma-separated list of attributes
     $cards = Pokemon::Card()->orderBy(['name,-number'])->all();
     
-#### Get all Cards
+### Get all Cards
 
     $cards = Pokemon::Card()->all();
     
-#### Paginate Card queries
+### Paginate Card queries
 
     $cards = Pokemon::Card()->where([
         'set.legalities.standard' => 'legal'
     ])->page(8)->pageSize(100)->all();
     
-#### Get Card pagination information
+### Get Card pagination information
 
     $pagination = Pokemon::Card()->where([
         'set.legalities.standard' => 'legal'
     ])->pagination();
     
-#### Find a Set by set code
+### Find a Set by set code
 
     $set = Pokemon::Set()->find('base1');
     
-#### Filter Sets via query parameters
+### Filter Sets via query parameters
 
     $set = Pokemon::Set()->where(['legalities.standard' => 'legal'])->all();
     
-#### Paginate Set queries
+### Paginate Set queries
 
     $set = Pokemon::Set()->page(2)->pageSize(10)->all();
     
-#### Get Set pagination information
+### Get Set pagination information
 
     $pagination = Pokemon::Set()->pagination();
     
-#### Get all Sets
+### Get all Sets
 
     $sets = Pokemon::Set()->all();
     
-#### Get all Types
+### Get all Types
 
     $types = Pokemon::Type()->all();
     
-#### Get all Subtypes
+### Get all Subtypes
 
     $subtypes = Pokemon::Subtype()->all();
     
-#### Get all Supertypes
+### Get all Supertypes
 
     $supertypes = Pokemon::Supertype()->all();
     
-#### Get all Rarities
+### Get all Rarities
 
     $supertypes = Pokemon::Rarity()->all();
     
