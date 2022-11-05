@@ -40,7 +40,7 @@ This is the PokÃ©mon TCG SDK PHP implementation. It is a wrapper around the PokÃ
         'subtypes' => 'ex'
     ])->all();
     
-### Order Cards
+### <p align="center">Order Cards</p>
 
 There are three methods to order cards. You may use whichever one suits you.
 
