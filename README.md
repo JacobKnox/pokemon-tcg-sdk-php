@@ -40,6 +40,19 @@ This is the PokÃ©mon TCG SDK PHP implementation. It is a wrapper around the PokÃ
         'subtypes' => 'ex'
     ])->all();
     
+#### Order Cards
+
+### There are three methods to order cards. You may use whichever one suits you.
+
+## Specify attribute and whether to sort ascending (0) or descending (1)
+    $cards = Pokemon::Card()->orderBy(['name' => 0, 'number' => 1])->all();
+
+## Specify attributes with order indicator ('-' indicates descending, lack thereof indicates ascending)
+    $cards = Pokemon::Card()->orderBy(['name', '-number'])->all();
+    
+## Specify comma-separated list of attributes
+    $cards = Pokemon::Card()->orderBy(['name,-number'])->all();
+    
 #### Get all Cards
 
     $cards = Pokemon::Card()->all();
