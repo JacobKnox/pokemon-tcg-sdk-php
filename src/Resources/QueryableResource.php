@@ -68,6 +68,9 @@ class QueryableResource extends JsonResource implements QueriableResourceInterfa
                 if(is_array($value)){
                     return $attribute . ':' . implode(' ' . $value[0] . ' ' . $attribute . ':', array_slice($value, 1)) . '';
                 }
+                else if(is_int($attribute)){
+                    return $value;
+                }
                 return $attribute . ':' . $value . '';
             }, array_keys($this->query), $this->query);
 
@@ -75,13 +78,13 @@ class QueryableResource extends JsonResource implements QueriableResourceInterfa
             $this->query = [];
         }
 
+        $queryParams['page'] = $this->page;
         if ($this->page > self::DEFAULT_PAGE) {
-            $queryParams['page'] = $this->page;
             $this->page = self::DEFAULT_PAGE;
         }
 
+        $queryParams['pageSize'] = $this->pageSize;
         if ($this->pageSize !== self::DEFAULT_PAGE_SIZE) {
-            $queryParams['pageSize'] = $this->pageSize;
             $this->pageSize = self::DEFAULT_PAGE_SIZE;
         }
 
@@ -91,7 +94,7 @@ class QueryableResource extends JsonResource implements QueriableResourceInterfa
         }
         
         $uri = $this->resource . '?' . http_build_query($queryParams);
-        
+
         return new Request($this->method, $uri);
     }
 
@@ -130,6 +133,7 @@ class QueryableResource extends JsonResource implements QueriableResourceInterfa
 
     /**
      * @param array $attributes
+     * @param int $direction
      * @return QueriableResourceInterface
      *
      **/
