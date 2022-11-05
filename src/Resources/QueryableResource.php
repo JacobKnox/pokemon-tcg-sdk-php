@@ -66,9 +66,9 @@ class QueryableResource extends JsonResource implements QueriableResourceInterfa
         if (!empty($this->query)) {
             $query = array_map(function ($attribute, $value) {
                 if(is_array($value)){
-                    return $attribute . ':"' . implode('" ' . $value[0] . ' ' . $attribute . ':"', array_slice($value, 1)) . '"';
+                    return $attribute . ':' . implode(' ' . $value[0] . ' ' . $attribute . ':', array_slice($value, 1)) . '';
                 }
-                return $attribute . ':"' . $value . '"';
+                return $attribute . ':' . $value . '';
             }, array_keys($this->query), $this->query);
 
             $queryParams['q'] = implode(' ', $query);
@@ -86,11 +86,12 @@ class QueryableResource extends JsonResource implements QueriableResourceInterfa
         }
 
         if (!empty($this->orderBy)) {
-            $queryParams['orderBy'] = implode(',', $this->orderBy);
+            $queryParams['orderBy'] = $this->orderBy;
             $this->orderBy = [];
         }
-
+        
         $uri = $this->resource . '?' . http_build_query($queryParams);
+        
         return new Request($this->method, $uri);
     }
 
@@ -128,13 +129,20 @@ class QueryableResource extends JsonResource implements QueriableResourceInterfa
     }
 
     /**
-     * @param string $attribute
-     * @param int $direction
+     * @param array $attributes
      * @return QueriableResourceInterface
-     */
-    public function orderBy(string $attribute, int $direction = Pokemon::ASCENDING_ORDER): QueriableResourceInterface
+     *
+     **/
+    public function orderBy(array $attributes): QueriableResourceInterface
     {
-        $this->orderBy[] = $direction === Pokemon::DESCENDING_ORDER ? '-' . $attribute : $attribute;
+        if(array_keys($attributes)[0] == 0){
+            $this->orderBy = implode(',', $attributes);
+        }
+        else{
+            $this->orderBy = implode(',', array_map(function ($attribute, $value) {
+                return $value == 1 ? '-' . $attribute : $attribute;
+            }, array_keys($attributes), $attributes));
+        }
 
         return $this;
     }
