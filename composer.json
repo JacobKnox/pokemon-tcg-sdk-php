@@ -1,5 +1,5 @@
 {
-    "name": "pokemon-tcg/pokemon-tcg-sdk-php",
+    "name": "jacobknox/pokemon-tcg-sdk-php",
     "description": "This is the Pokémon TCG SDK PHP implementation. It is a wrapper around the Pokémon TCG API of pokemontcg.io.",
     "keywords": [
         "pokemon",
@@ -15,9 +15,9 @@
         }
     ],
     "require": {
-        "php": "^7.3 || ^7.4 || ^8.0",
-        "doctrine/inflector": "^2.0",
-        "guzzlehttp/guzzle": "^7.2",
+        "php": "^5.5 || ^5.6 || ^7.0 || ^7.3 || ^7.4 || ^8.0",
+        "guzzlehttp/guzzle": "^6.2 || ^7.2",
+        "doctrine/inflector": "^1.1 || ^2.0",
         "ext-json": "*"
     },
     "require-dev": {
