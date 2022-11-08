@@ -1,6 +1,6 @@
 {
     "name": "jacobknox/pokemon-tcg-sdk-php",
-    "description": "This is the Pokémon TCG SDK PHP implementation. It is a wrapper around the Pokémon TCG API of pokemontcg.io.",
+    "description": "This is an update to the Pokémon TCG SDK PHP implementation. It is a wrapper around the Pokémon TCG API of pokemontcg.io.",
     "keywords": [
         "pokemon",
         "tcg",
@@ -12,6 +12,10 @@
         {
             "name": "CJ O'Hara",
             "email": "mmonkey@gmail.com"
+        },
+        {
+            "name": "Jacob Knox",
+            "email": "jacobknoxa@gmail.com"
         }
     ],
     "require": {
