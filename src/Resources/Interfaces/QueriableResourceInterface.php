@@ -26,4 +26,16 @@ interface QueriableResourceInterface extends ResourceInterface
      */
     public function find($identifier);
 
+    /**
+     * @param int $page
+     * @return QueriableResourceInterface
+     */
+    public function page(int $page);
+
+    /**
+     * @param int $pageSize
+     * @return QueriableResourceInterface
+     */
+    public function pageSize(int $size);
+
 }
