@@ -22,26 +22,33 @@ class QueryableResource extends JsonResource implements QueriableResourceInterfa
 
     const DEFAULT_PAGE = 1;
     const DEFAULT_PAGE_SIZE = 250;
+    const ALLOWED_ASCENDING = [0, 'ascending', '']; // array values allowed to respresent ascending order
+    const ALLOWED_DESCENDING = [1, 'descending', '-']; // array values allowed to represent descending order
 
     /**
      * @var array
      */
-    protected $query = [];
+    protected $query = []; // corresponds to q, the search query.
 
     /**
      * @var int
      */
-    protected $page = self::DEFAULT_PAGE;
+    protected $page = self::DEFAULT_PAGE; // corresponds to page, the page of data to access.
 
     /**
      * @var int
      */
-    protected $pageSize = self::DEFAULT_PAGE_SIZE;
+    protected $pageSize = self::DEFAULT_PAGE_SIZE; // corresponds to pageSize, the maximum amount of cards to return.
 
     /**
      * @var array
      */
-    protected $orderBy = [];
+    protected $orderBy = []; // corresponds to orderBy, the field(s) to order the results by.
+
+    /**
+     * @var array
+     */
+    protected $select = []; // corresponds to select, a comma delimited list of fields to return in the response. By default, all fields are returned if this query parameter is not used.
 
     /**
      * @var string|null
@@ -79,7 +86,7 @@ class QueryableResource extends JsonResource implements QueriableResourceInterfa
         }
 
         $queryParams['page'] = $this->page;
-        if ($this->page > self::DEFAULT_PAGE) {
+        if ($this->page !== self::DEFAULT_PAGE) {
             $this->page = self::DEFAULT_PAGE;
         }
 
@@ -89,8 +96,13 @@ class QueryableResource extends JsonResource implements QueriableResourceInterfa
         }
 
         if (!empty($this->orderBy)) {
-            $queryParams['orderBy'] = $this->orderBy;
+            $queryParams['orderBy'] = implode(',', $this->orderBy);
             $this->orderBy = [];
+        }
+
+        if(!empty($this->select)){
+            $queryParams['select'] = implode(',', $this->select);
+            $this->select = [];
         }
         
         $uri = $this->resource . '?' . http_build_query($queryParams);
@@ -133,20 +145,46 @@ class QueryableResource extends JsonResource implements QueriableResourceInterfa
 
     /**
      * @param array $attributes
-     * @param int $direction
      * @return QueriableResourceInterface
+     * @throws InvalidArgumentException
      *
      **/
     public function orderBy(array $attributes): QueriableResourceInterface
     {
-        if(array_keys($attributes)[0] == 0){
-            $this->orderBy = implode(',', $attributes);
+        // if the attributes array passed in is already a list (meaning they either simply listed it "name,-number" or ["name","-number"])
+        if(array_is_list($attributes)){
+            // simply join them with commas
+            $this->orderBy = array_merge($this->orderBy, implode(',', $attributes));
         }
+        // otherwise, they chose a more complicated option
         else{
-            $this->orderBy = implode(',', array_map(function ($attribute, $value) {
-                return $value == 1 ? '-' . $attribute : $attribute;
-            }, array_keys($attributes), $attributes));
+            $this->orderBy = array_merge($this->orderBy, implode(',', array_map(function ($attribute, $value) {
+                // if the value is one of the accepted values for ascending, then just return the attribute
+                if(in_array($value, self::ALLOWED_ASCENDING)){
+                    return $attribute;
+                }
+                // if the value is one of the accepted values for descending, then return the attributee with a negative in front
+                else if(in_array($value, self::ALLOWED_DESCENDING)){
+                    return '-' . $attribute;
+                }
+                // otherwise, throw an InvalidArgumentException, because the value is not permitted
+                else{
+                    throw new InvalidArgumentException($value . " is not a valid ordering.");
+                }
+            }, array_keys($attributes), $attributes)));
         }
+
+        return $this;
+    }
+
+    /**
+     * @param array $attributes
+     * @return QueriableResourceInterface
+     *
+     **/
+    public function select(array $attributes): QueriableResourceInterface
+    {
+        $this->select = array_merge($this->select, $attributes);
 
         return $this;
     }

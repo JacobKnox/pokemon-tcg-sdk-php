@@ -42,10 +42,13 @@ This is the Pok√©mon TCG SDK PHP implementation. It is a wrapper around the Pok√
     
 ### <p align="center">Order Cards</p>
 
-There are three methods to order cards. You may use whichever one suits you.
+There are four methods to order cards. You may use whichever one suits you. Please note that they will sorted first by the first array/list item then by the second and so on until the end of the array/list.
 
-#### Specify attribute and whether to sort ascending (0) or descending (1)
+#### Specify attribute and whether to sort ascending or descending
     $cards = Pokemon::Card()->orderBy(['name' => 0, 'number' => 1])->all();
+
+    Permitted values to represent ascending: 0, 'ascending', ''.
+    Permitted values to represent descending: 1, 'descending', '-'.
 
 #### Specify attributes with order indicator ('-' indicates descending, lack thereof indicates ascending)
     $cards = Pokemon::Card()->orderBy(['name', '-number'])->all();
