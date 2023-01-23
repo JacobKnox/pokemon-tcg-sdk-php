@@ -38,4 +38,18 @@ interface QueriableResourceInterface extends ResourceInterface
      */
     public function pageSize(int $size);
 
+    /**
+     * @param array $attributes
+     *
+     * @return QueriableResourceInterface
+     */
+    public function orderBy(array $attributes);
+
+    /**
+     * @param array $attributes
+     *
+     * @return QueriableResourceInterface
+     */
+    public function select(array $attributes);
+
 }

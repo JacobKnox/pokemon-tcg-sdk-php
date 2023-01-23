@@ -8,7 +8,7 @@ This is the PokÃ©mon TCG SDK PHP implementation. It is a wrapper around the PokÃ
 
 ## Installation
     
-    composer require pokemon-tcg/pokemon-tcg-sdk-php
+    composer require jacobknox/pokemon-tcg-sdk-php
     
 ## Usage
     
@@ -45,10 +45,10 @@ This is the PokÃ©mon TCG SDK PHP implementation. It is a wrapper around the PokÃ
 There are four methods to order cards. You may use whichever one suits you. Please note that they will sorted first by the first array/list item then by the second and so on until the end of the array/list.
 
 #### Specify attribute and whether to sort ascending or descending
-    $cards = Pokemon::Card()->orderBy(['name' => 0, 'number' => 1])->all();
+    $cards = Pokemon::Card()->orderBy(['name' => 1, 'number' => -1])->all();
 
-Permitted values to represent ascending: 0, 'ascending', ''.
-Permitted values to represent descending: 1, 'descending', '-'.
+Permitted values to represent ascending: 1, 'ascending', ''.
+Permitted values to represent descending: -1, 'descending', '-'.
 
 #### Specify attributes with order indicator ('-' indicates descending, lack thereof indicates ascending)
     $cards = Pokemon::Card()->orderBy(['name', '-number'])->all();

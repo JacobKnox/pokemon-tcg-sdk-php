@@ -22,8 +22,8 @@ class QueryableResource extends JsonResource implements QueriableResourceInterfa
 
     const DEFAULT_PAGE = 1;
     const DEFAULT_PAGE_SIZE = 250;
-    const ALLOWED_ASCENDING = [0, 'ascending', '']; // array values allowed to respresent ascending order
-    const ALLOWED_DESCENDING = [1, 'descending', '-']; // array values allowed to represent descending order
+    const ALLOWED_ASCENDING = [1, 'ascending', '']; // array values allowed to respresent ascending order
+    const ALLOWED_DESCENDING = [-1, 'descending', '-']; // array values allowed to represent descending order
 
     /**
      * @var array
@@ -71,17 +71,7 @@ class QueryableResource extends JsonResource implements QueriableResourceInterfa
 
         $queryParams = [];
         if (!empty($this->query)) {
-            $query = array_map(function ($attribute, $value) {
-                if(is_array($value)){
-                    return $attribute . ':' . implode(' ' . $value[0] . ' ' . $attribute . ':', array_slice($value, 1)) . '';
-                }
-                else if(is_int($attribute)){
-                    return $value;
-                }
-                return $attribute . ':' . $value . '';
-            }, array_keys($this->query), $this->query);
-
-            $queryParams['q'] = implode(' ', $query);
+            $queryParams['q'] = implode(' ', $this->query);
             $this->query = [];
         }
 
@@ -116,7 +106,25 @@ class QueryableResource extends JsonResource implements QueriableResourceInterfa
      */
     public function where(array $query): QueriableResourceInterface
     {
-        $this->query = array_merge($this->query, $query);
+        if(array_is_list($query)){
+            $this->query = array_merge($this->query, $query);
+        }
+        else{
+            $this->query = array_merge($this->query, array_map(function ($attribute, $value) {
+                if(strtoupper($attribute) == "OR"){
+                    return '(' . implode(" OR ", $value) . ')';
+                }
+                else if(is_array($value) && strtoupper($value[0]) == "OR"){
+                    return "({$attribute}:" . implode(" OR {$attribute}:", $value) . ')';
+                }
+                else if(is_array($value)){
+                    return "{$attribute}:" . implode(" {$attribute}:", $value);
+                }
+                else{
+                    return "{$attribute}:{$value}";
+                }
+            }, array_keys($query), $query));
+        }
 
         return $this;
     }
